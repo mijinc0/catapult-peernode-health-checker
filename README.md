@@ -2,6 +2,9 @@
 
 Let's check your node with `catapult.tools.health` !!!
 
+Requirements: docker-compose  
+docker-composeが必要になります。
+
 ## version
 
 **catapult-peernode-health-checker**  
