@@ -4,7 +4,7 @@ Let's check your node with `catapult.tools.health` !!!
 
 ## version
 
-**catapult-peernode-health-checker**
+**catapult-peernode-health-checker**  
 -v 0.1.0
 
 **docker image**  
@@ -62,7 +62,7 @@ edit `userconfig/resources/peers-p2p.json`.
 catapult-peernode-health-checker$ docker-compose up
 ```
 
-## 3. check log
+### 3. check log
 
 check summary
 
