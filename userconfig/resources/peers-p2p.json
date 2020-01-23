@@ -1,0 +1,16 @@
+{
+  "_info": "this file contains a list of peer_node peers",
+  "knownPeers": [
+    {
+      "publicKey": "{{boot publicKey}}",
+      "endpoint": {
+        "host": "{{node address}}",
+        "port": 7900
+      },
+      "metadata": {
+        "name": "my-node",
+        "roles": "Peer"
+      }
+  	}
+  ]
+}
