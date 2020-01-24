@@ -1,8 +1,0 @@
-version: '3'
-
-services:
-  check-peer-nodes:
-    image: techbureau/catapult-tools:gcc-keccak-0.9.1.1
-    command: bash -c "/usr/catapult/bin/catapult.tools.health --resources /userconfig/"
-    volumes:
-    - ./userconfig:/userconfig

@@ -1,14 +1,22 @@
+:bulb: catapult.server has several utility programs named `catapult.tools.XXX`.
+This only uses docker with a diagnostic tool for the node `catapult.tools.health`.<br><br>
+:bulb: catapult.serverには `catapult.tools.XXX` という名前で、いくつかのユーティリティープログラムが存在しています。
+これはその中で、`catapult.tools.health` というノードの診断ツールをdocker で使用しているだけのものです。
+
+**catapult-server**  
+https://github.com/nemtech/catapult-server
+
 # catapult-peernode-health-checker
 
 Let's check your node with `catapult.tools.health` !!!
 
-Requirements: docker-compose  
-docker-composeが必要になります。
+Requirements: docker
+dockerが必要になります。
 
 ## version
 
 **catapult-peernode-health-checker**  
--v 0.1.0
+-v 0.1.1
 
 **docker image**  
 techbureau/catapult-tools:gcc-keccak-0.9.1.1
@@ -87,9 +95,11 @@ localNetworks = 127.0.0.1
 ### 3. exec
 
 ```sh
+# into catapult-peernode-health-checker directory
 ~$ cd catapult-peernode-health-checker
 
-catapult-peernode-health-checker$ docker-compose up
+# exec shell script
+catapult-peernode-health-checker$ ./exec.sh
 ```
 
 ### 4. check log
@@ -100,21 +110,21 @@ The summary is output at the bottom of the output log. If communication with all
 サマリーは出力ログの一番下に出力されます。もし、全てのノードとの通信が正常に終了ると、ログの最後に "exited with code 0" と表示されます。
 
 ```
-check-peer-nodes_1  | 2020-01-23 11:44:21.850837 0x00007f0823c55700: <info> (health::main.cpp@174) --- COUNTERS for known peers ---
-check-peer-nodes_1  | 2020-01-23 11:44:21.850936 0x00007f0823c55700: <info> (health::main.cpp@170) my-node-A @ AAA.AAA.AA.AA:7900
+2020-01-23 11:44:21.850837 0x00007f0823c55700: <info> (health::main.cpp@174) --- COUNTERS for known peers ---
+2020-01-23 11:44:21.850936 0x00007f0823c55700: <info> (health::main.cpp@170) my-node-A @ AAA.AAA.AA.AA:7900
 check-peer-nodes_1  |  
-check-peer-nodes_1  | 2020-01-23 11:44:21.851012 0x00007f0823c55700: <info> (health::main.cpp@178) --- SUMMARY for known peers ---
-check-peer-nodes_1  | 2020-01-23 11:44:21.851100 0x00007f0823c55700: <info> (health::main.cpp@137)    my-node-A @ AAA.AAA.AA.AA:7900 [P2P] at height 221594 with score 2217868825965992094
-check-peer-nodes_1  | 2020-01-23 11:44:21.851346 0x00007f08259e9140: <debug> (thread::IoThreadPool.cpp@111) waiting for 1 thread pool threads to exit
-check-peer-nodes_1  | 2020-01-23 11:44:21.851553 0x00007f0823c55700: <debug> (ionet::PacketSocket.cpp@373) socket close triggered by destruction (0000000000000001), 1879ms elapsed
-check-peer-nodes_1  | 2020-01-23 11:44:21.852382 0x00007f08259e9140: <info> (thread::IoThreadPool.cpp@113) all thread pool threads exited    
+2020-01-23 11:44:21.851012 0x00007f0823c55700: <info> (health::main.cpp@178) --- SUMMARY for known peers ---
+2020-01-23 11:44:21.851100 0x00007f0823c55700: <info> (health::main.cpp@137)    my-node-A @ AAA.AAA.AA.AA:7900 [P2P] at height 221594 with score 2217868825965992094
+2020-01-23 11:44:21.851346 0x00007f08259e9140: <debug> (thread::IoThreadPool.cpp@111) waiting for 1 thread pool threads to exit
+2020-01-23 11:44:21.851553 0x00007f0823c55700: <debug> (ionet::PacketSocket.cpp@373) socket close triggered by destruction (0000000000000001), 1879ms elapsed
+2020-01-23 11:44:21.852382 0x00007f08259e9140: <info> (thread::IoThreadPool.cpp@113) all thread pool threads exited    
 catapult-node-remote-checker_check-peer-nodes_1 exited with code 0
 ```
 
 line 5.
 
 ```
-check-peer-nodes_1  | 2020-01-23 11:44:21.851100 0x00007f0823c55700: <info> (health::main.cpp@137)    my-node-A @ AAA.AAA.AA.AA:7900 [P2P] at height 221594 with score 2217868825965992094
+2020-01-23 11:44:21.851100 0x00007f0823c55700: <info> (health::main.cpp@137)    my-node-A @ AAA.AAA.AA.AA:7900 [P2P] at height 221594 with score 2217868825965992094
 ```
 
 `my-node-A @ AAA.AAA.AA.AA:7900 [P2P] at height 221594 with score 2217868825965992094`
@@ -126,19 +136,19 @@ you can know node height (221594) & score (2217868825965992094).
 you can know server status.
 
 ```
-check-peer-nodes_1  | 2020-01-24 04:49:28.569563 0x00007f62dc9af700: <info> (health::main.cpp@174) --- COUNTERS for known peers ---
-check-peer-nodes_1  | 2020-01-24 04:49:28.570300 0x00007f62dc9af700: <info> (health::main.cpp@170) my-node @ XXX.XX.XXX.XX:7900
-check-peer-nodes_1  |    ACCTREST C : 1      |      ACNTST C : 1'488  |  ACNTST C HVA : 111    |  ACTIVE PINGS : 0      |
-check-peer-nodes_1  |       BAN ACT : 0      |       BAN ALL : 0      |  BLK ELEM ACT : 0      |  BLK ELEM TOT : 2      |
-check-peer-nodes_1  |      BLKDIF C : 786    |        HASH C : 603    |    HASHLOCK C : 10     |   MEM CUR RSS : 54     |
-check-peer-nodes_1  |  MEM CUR VIRT : 1'075  |   MEM MAX RSS : 54     |   MEM SHR RSS : 32     |    METADATA C : 16     |
-check-peer-nodes_1  |      MOSAIC C : 289    |  MOSAICREST C : 5      |    MULTISIG C : 626    |         NODES : 5      |
-check-peer-nodes_1  |          NS C : 487    |       NS C AS : 581    |       NS C DS : 594    | RB COMMIT ALL : 0      |
-check-peer-nodes_1  | RB COMMIT RCT : 0      | RB IGNORE ALL : 0      | RB IGNORE RCT : 0      |       READERS : 1      |
-check-peer-nodes_1  |  SECRETLOCK C : 0      | SUCCESS PINGS : 0      |         TASKS : 11     | TOT CONF TXES : 22'615 |
-check-peer-nodes_1  |   TOTAL PINGS : 0      |   TS NODE AGE : 0      | TS OFFSET ABS : 0      | TS OFFSET DIR : 0      |
-check-peer-nodes_1  |  TS TOTAL REQ : 0      |   TX ELEM ACT : 0      |   TX ELEM TOT : 1      |  UNLKED ACCTS : 1      |
-check-peer-nodes_1  |      UT CACHE : 0      |       WRITERS : 3      |  
+2020-01-24 04:49:28.569563 0x00007f62dc9af700: <info> (health::main.cpp@174) --- COUNTERS for known peers ---
+2020-01-24 04:49:28.570300 0x00007f62dc9af700: <info> (health::main.cpp@170) my-node @ XXX.XX.XXX.XX:7900
+   ACCTREST C : 1      |      ACNTST C : 1'488  |  ACNTST C HVA : 111    |  ACTIVE PINGS : 0      |
+      BAN ACT : 0      |       BAN ALL : 0      |  BLK ELEM ACT : 0      |  BLK ELEM TOT : 2      |
+     BLKDIF C : 786    |        HASH C : 603    |    HASHLOCK C : 10     |   MEM CUR RSS : 54     |
+ MEM CUR VIRT : 1'075  |   MEM MAX RSS : 54     |   MEM SHR RSS : 32     |    METADATA C : 16     |
+     MOSAIC C : 289    |  MOSAICREST C : 5      |    MULTISIG C : 626    |         NODES : 5      |
+         NS C : 487    |       NS C AS : 581    |       NS C DS : 594    | RB COMMIT ALL : 0      |
+RB COMMIT RCT : 0      | RB IGNORE ALL : 0      | RB IGNORE RCT : 0      |       READERS : 1      |
+ SECRETLOCK C : 0      | SUCCESS PINGS : 0      |         TASKS : 11     | TOT CONF TXES : 22'615 |
+  TOTAL PINGS : 0      |   TS NODE AGE : 0      | TS OFFSET ABS : 0      | TS OFFSET DIR : 0      |
+ TS TOTAL REQ : 0      |   TX ELEM ACT : 0      |   TX ELEM TOT : 1      |  UNLKED ACCTS : 1      |
+     UT CACHE : 0      |       WRITERS : 3      |  
 ```
 
 ### NOTE
@@ -146,8 +156,8 @@ check-peer-nodes_1  |      UT CACHE : 0      |       WRITERS : 3      |
 If you get the following error ...
 
 ```
-check-peer-nodes_1  | 2020-01-24 04:48:43.709967 0x00007f516388b700: <error> (api::RemoteRequestDispatcher.h@49) read from remote node failed for diagnostic counters request
-check-peer-nodes_1  | 2020-01-24 04:48:43.710566 0x00007f516388b700: <warning> (tools::ToolThreadUtils.h@38) unhandled exception while querying diagnostic counters!
+2020-01-24 04:48:43.709967 0x00007f516388b700: <error> (api::RemoteRequestDispatcher.h@49) read from remote node failed for diagnostic counters request
+2020-01-24 04:48:43.710566 0x00007f516388b700: <warning> (tools::ToolThreadUtils.h@38) unhandled exception while querying diagnostic counters!
 ```
 
 Either:
