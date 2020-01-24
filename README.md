@@ -57,7 +57,34 @@ edit `userconfig/resources/peers-p2p.json`.
 }
 ```
 
-### 2. exec
+### 2. check node setting
+
+check trasted hosts on node.
+
+`config-node.properties (node setting)`
+
+```
+[node]
+
+...
+
+# all hosts are trusted when list is empty
+trustedHosts = 127.0.0.1
+localNetworks = 127.0.0.1
+```
+
+`sample`
+
+two trasted host `127.0.0.1 (localhost)`, `XXX.XXX.XX.XXX`.
+
+```
+# all hosts are trusted when list is empty
+# ( split with comma )
+trustedHosts = 127.0.0.1,XXX.XXX.XX.XXX
+localNetworks = 127.0.0.1
+```
+
+### 3. exec
 
 ```sh
 ~$ cd catapult-peernode-health-checker
@@ -65,11 +92,11 @@ edit `userconfig/resources/peers-p2p.json`.
 catapult-peernode-health-checker$ docker-compose up
 ```
 
-### 3. check log
+### 4. check log
 
-check summary
+**check summary**
 
-The summary is output at the bottom of the output log. If communication with all nodes is completed successfully, "exited with code 0" is displayed at the end of the log.
+The summary is output at the bottom of the output log. If communication with all nodes is completed successfully, "exited with code 0" is displayed at the end of the log.  
 サマリーは出力ログの一番下に出力されます。もし、全てのノードとの通信が正常に終了ると、ログの最後に "exited with code 0" と表示されます。
 
 ```
@@ -93,3 +120,42 @@ check-peer-nodes_1  | 2020-01-23 11:44:21.851100 0x00007f0823c55700: <info> (hea
 `my-node-A @ AAA.AAA.AA.AA:7900 [P2P] at height 221594 with score 2217868825965992094`
 
 you can know node height (221594) & score (2217868825965992094).
+
+**check DiagnosticCounter**
+
+you can know server status.
+
+```
+check-peer-nodes_1  | 2020-01-24 04:49:28.569563 0x00007f62dc9af700: <info> (health::main.cpp@174) --- COUNTERS for known peers ---
+check-peer-nodes_1  | 2020-01-24 04:49:28.570300 0x00007f62dc9af700: <info> (health::main.cpp@170) my-node @ XXX.XX.XXX.XX:7900
+check-peer-nodes_1  |    ACCTREST C : 1      |      ACNTST C : 1'488  |  ACNTST C HVA : 111    |  ACTIVE PINGS : 0      |
+check-peer-nodes_1  |       BAN ACT : 0      |       BAN ALL : 0      |  BLK ELEM ACT : 0      |  BLK ELEM TOT : 2      |
+check-peer-nodes_1  |      BLKDIF C : 786    |        HASH C : 603    |    HASHLOCK C : 10     |   MEM CUR RSS : 54     |
+check-peer-nodes_1  |  MEM CUR VIRT : 1'075  |   MEM MAX RSS : 54     |   MEM SHR RSS : 32     |    METADATA C : 16     |
+check-peer-nodes_1  |      MOSAIC C : 289    |  MOSAICREST C : 5      |    MULTISIG C : 626    |         NODES : 5      |
+check-peer-nodes_1  |          NS C : 487    |       NS C AS : 581    |       NS C DS : 594    | RB COMMIT ALL : 0      |
+check-peer-nodes_1  | RB COMMIT RCT : 0      | RB IGNORE ALL : 0      | RB IGNORE RCT : 0      |       READERS : 1      |
+check-peer-nodes_1  |  SECRETLOCK C : 0      | SUCCESS PINGS : 0      |         TASKS : 11     | TOT CONF TXES : 22'615 |
+check-peer-nodes_1  |   TOTAL PINGS : 0      |   TS NODE AGE : 0      | TS OFFSET ABS : 0      | TS OFFSET DIR : 0      |
+check-peer-nodes_1  |  TS TOTAL REQ : 0      |   TX ELEM ACT : 0      |   TX ELEM TOT : 1      |  UNLKED ACCTS : 1      |
+check-peer-nodes_1  |      UT CACHE : 0      |       WRITERS : 3      |  
+```
+
+### NOTE
+
+If you get the following error ...
+
+```
+check-peer-nodes_1  | 2020-01-24 04:48:43.709967 0x00007f516388b700: <error> (api::RemoteRequestDispatcher.h@49) read from remote node failed for diagnostic counters request
+check-peer-nodes_1  | 2020-01-24 04:48:43.710566 0x00007f516388b700: <warning> (tools::ToolThreadUtils.h@38) unhandled exception while querying diagnostic counters!
+```
+
+Either:
+
+1. `extension.diagnostics` is not enabled as server extension
+2. the node being requested is remote and the requesting node is not in list of trustedHosts
+
+どちらか:
+
+1. `extension.diagnostics`がサーバー側で有効になっていない
+2. `trustedHosts`のリスト外からリクエストを送っている
