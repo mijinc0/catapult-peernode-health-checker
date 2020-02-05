@@ -7,9 +7,9 @@ if [ ! -d ./userconfig ]; then
   exit 1
 fi
 
-sudo docker run \
+docker run \
   --rm \
   -t \
   -v $(pwd)/userconfig:/userconfig/ \
-  techbureau/catapult-tools:gcc-keccak-0.9.1.1 \
+  techbureau/catapult-tools:gcc-keccak-0.9.2.1 \
   /usr/catapult/bin/catapult.tools.health --resources /userconfig/
