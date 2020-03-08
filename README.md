@@ -16,10 +16,10 @@ dockerが必要になります。
 ## version
 
 **catapult-peernode-health-checker**  
--v 0.2.1
+-v 0.3.1
 
 **docker image**  
-techbureau/catapult-tools:gcc-keccak-0.9.2.1
+techbureau/catapult-tools:gcc-keccak-0.9.3.1
 
 ## Usage
 
